@@ -5,48 +5,62 @@ public class ChestRandomAlgorithm : MonoBehaviour
     [SerializeField]
     Transform _spawnPoint;
     ItemList _itemList;
+    bool _isOpened;
+    public bool IsOpened { get { return _isOpened; } }
     void Awake()
     {
         _itemList = GetComponent<ItemList>();
-        OnChestOpen();
     }
-    void OnChestOpen()
+    public void OnChestOpen()
     {
+        _isOpened = true;
+        
         float randomNumberItemTier = Random.value;
 
-        if (randomNumberItemTier >= 0 && randomNumberItemTier < .45f){
+        if (randomNumberItemTier >= 0 && randomNumberItemTier < .45f)
+        {
             SpawnRandomItem("WhiteItems");
-        } else if (randomNumberItemTier >=.45f && randomNumberItemTier < .75f){
+        }
+        else if (randomNumberItemTier >= .45f && randomNumberItemTier < .75f)
+        {
             SpawnRandomItem("GreenItems");
-        } else if (randomNumberItemTier >=.75f && randomNumberItemTier < .9f){
+        }
+        else if (randomNumberItemTier >= .75f && randomNumberItemTier < .9f)
+        {
             SpawnRandomItem("BlueItems");
-        } else if (randomNumberItemTier >= .9f && randomNumberItemTier < .98f){
+        }
+        else if (randomNumberItemTier >= .9f && randomNumberItemTier < .98f)
+        {
             SpawnRandomItem("PurpleItems");
-        } else {
+        }
+        else
+        {
             SpawnRandomItem("YellowItems");
         }
     }
-    void SpawnRandomItem(string selectedArray){        
-        switch (selectedArray){
-            case "WhiteItems": 
+    void SpawnRandomItem(string selectedArray)
+    {
+        switch (selectedArray)
+        {
+            case "WhiteItems":
                 int randomNumberWhiteItemSelector = Random.Range(0, _itemList.WhiteItems.Length);
-                Instantiate (_itemList.WhiteItems[randomNumberWhiteItemSelector], _spawnPoint.position, _spawnPoint.rotation);
+                Instantiate(_itemList.WhiteItems[randomNumberWhiteItemSelector], _spawnPoint.position, _spawnPoint.rotation);
                 break;
-            case "GreenItems": 
+            case "GreenItems":
                 int randomNumberGreenItemSelector = Random.Range(0, _itemList.GreenItems.Length);
-                Instantiate (_itemList.GreenItems[randomNumberGreenItemSelector], _spawnPoint.position, _spawnPoint.rotation);
+                Instantiate(_itemList.GreenItems[randomNumberGreenItemSelector], _spawnPoint.position, _spawnPoint.rotation);
                 break;
-            case "BlueItems": 
+            case "BlueItems":
                 int randomNumberBlueItemSelector = Random.Range(0, _itemList.BlueItems.Length);
-                Instantiate (_itemList.BlueItems[randomNumberBlueItemSelector], _spawnPoint.position, _spawnPoint.rotation);
+                Instantiate(_itemList.BlueItems[randomNumberBlueItemSelector], _spawnPoint.position, _spawnPoint.rotation);
                 break;
-            case "PurpleItems": 
+            case "PurpleItems":
                 int randomNumberPurpleItemSelector = Random.Range(0, _itemList.PurpleItems.Length);
-                Instantiate (_itemList.PurpleItems[randomNumberPurpleItemSelector], _spawnPoint.position, _spawnPoint.rotation);
+                Instantiate(_itemList.PurpleItems[randomNumberPurpleItemSelector], _spawnPoint.position, _spawnPoint.rotation);
                 break;
-            case "YellowItems": 
+            case "YellowItems":
                 int randomNumberYellowItemSelector = Random.Range(0, _itemList.YellowItems.Length);
-                Instantiate (_itemList.YellowItems[randomNumberYellowItemSelector], _spawnPoint.position, _spawnPoint.rotation);
+                Instantiate(_itemList.YellowItems[randomNumberYellowItemSelector], _spawnPoint.position, _spawnPoint.rotation);
                 break;
         }
     }
