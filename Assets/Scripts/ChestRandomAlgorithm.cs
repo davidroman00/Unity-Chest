@@ -4,20 +4,20 @@ public class ChestRandomAlgorithm : MonoBehaviour
 {
     [SerializeField]
     Transform _spawnPoint;
+    [SerializeField]
+    GameObject _sphereCollider;
     ItemList _itemList;
-    bool _isOpened;
-    public bool IsOpened { get { return _isOpened; } }
     void Awake()
     {
         _itemList = GetComponent<ItemList>();
     }
     public void OnChestOpen()
     {
-        _isOpened = true;
+        _sphereCollider.SetActive(false);
         
         float randomNumberItemTier = Random.value;
 
-        if (randomNumberItemTier >= 0 && randomNumberItemTier < .45f)
+        if (randomNumberItemTier >= 0 && randomNumberItemTier < 1.45f)
         {
             SpawnRandomItem("WhiteItems");
         }

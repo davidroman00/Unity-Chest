@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 4297029118408913882}
   m_Layer: 0
   m_Name: Yellow4
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
