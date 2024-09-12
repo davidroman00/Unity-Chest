@@ -17,7 +17,7 @@ public class ChestRandomAlgorithm : MonoBehaviour
         
         float randomNumberItemTier = Random.value;
 
-        if (randomNumberItemTier >= 0 && randomNumberItemTier < 1.45f)
+        if (randomNumberItemTier >= 0 && randomNumberItemTier < .45f)
         {
             SpawnRandomItem("WhiteItems");
         }
