@@ -1,20 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    // [SerializeField]
+    // Transform _itemSlotsParent;
+    // Transform[] _itemSlots;
+    public List<Item> Inventory = new();
+    Collider _interactableObject;
+
     public class Item
     {
-        SpriteRenderer img;
-        public Item(SpriteRenderer image)
+        SpriteRenderer InventoryImage;
+        public Item(SpriteRenderer img)
         {
-            img = image;
+            InventoryImage = img;
         }
+        // public void AddItemOnUI()
+        // {
+
+        // }
     }
-    public List<Item> Inventory = new();
-    bool _canInteract;
-    Collider _interactableObject;
+    void Awake()
+    {
+        //_itemSlots = GetComponentsInChildren<Transform>();
+    }
     void Update()
     {
         if (Input.GetKey(KeyCode.W))
@@ -29,11 +39,11 @@ public class CharacterMovement : MonoBehaviour
             currentPos.x -= Time.deltaTime * 4;
             transform.position = new Vector3(currentPos.x, transform.position.y, currentPos.z);
         }
-        if (Input.GetKeyDown(KeyCode.E) && _canInteract)
+        if (Input.GetKeyDown(KeyCode.E) && _interactableObject != null)
         {
             string tag = _interactableObject.tag;
             switch (tag)
-            {
+            {//lo hago con switch por si en el futuro el numero de interacciones sube más.
                 case "Chest":
                     ChestInteraction();
                     break;
@@ -47,27 +57,16 @@ public class CharacterMovement : MonoBehaviour
     {
         ChestRandomAlgorithm chest = _interactableObject.GetComponentInParent<ChestRandomAlgorithm>();
         chest.OnChestOpen();
-        _interactableObject = null;
     }
     void ItemInteraction()
     {
         CollectibleItemLogic pickedItem = _interactableObject.GetComponent<CollectibleItemLogic>();
-        Item newInventoryItem = new(pickedItem.img);
+        Item newInventoryItem = new(pickedItem.Image);
         Inventory.Add(newInventoryItem);
         pickedItem.OnItemPicked();
-        _interactableObject = null;
-        Debug.Log(Inventory);
     }
     void OnTriggerEnter(Collider collider)
     {
-        _canInteract = true;
         _interactableObject = collider;
-        Debug.Log(collider);
-    }
-    void OnTriggerExit()
-    {
-        _canInteract = false;
-        _interactableObject = null;
-        Debug.Log(_interactableObject);
     }
 }
