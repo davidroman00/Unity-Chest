@@ -1,7 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    public class Item
+    {
+        SpriteRenderer img;
+        public Item(SpriteRenderer image)
+        {
+            img = image;
+        }
+    }
+    public List<Item> Inventory = new();
     bool _canInteract;
     Collider _interactableObject;
     void Update()
@@ -40,17 +51,23 @@ public class CharacterMovement : MonoBehaviour
     }
     void ItemInteraction()
     {
-        CollectibleItemLogic item = _interactableObject.GetComponent<CollectibleItemLogic>();
-        item.OnItemPicked();
+        CollectibleItemLogic pickedItem = _interactableObject.GetComponent<CollectibleItemLogic>();
+        Item newInventoryItem = new(pickedItem.img);
+        Inventory.Add(newInventoryItem);
+        pickedItem.OnItemPicked();
         _interactableObject = null;
+        Debug.Log(Inventory);
     }
     void OnTriggerEnter(Collider collider)
     {
         _canInteract = true;
         _interactableObject = collider;
+        Debug.Log(collider);
     }
     void OnTriggerExit()
     {
         _canInteract = false;
+        _interactableObject = null;
+        Debug.Log(_interactableObject);
     }
 }
