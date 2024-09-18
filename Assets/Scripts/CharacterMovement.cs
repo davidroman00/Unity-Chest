@@ -52,22 +52,26 @@ public class CharacterMovement : MonoBehaviour
     }
     void ItemPickUp()
     {
-        CollectibleItemLogic pickedItem = _interactableObject.GetComponent<CollectibleItemLogic>();
-        Item newInventoryItem = new(pickedItem.Image);
-        Inventory.Add(newInventoryItem);
-        pickedItem.OnItemPicked();
-        RefreshInventoryUI();
+        if (Inventory.Count < _itemSlots.Length)
+        {
+            CollectibleItemLogic pickedItem = _interactableObject.GetComponent<CollectibleItemLogic>();
+            Item newInventoryItem = new(pickedItem.Image);
+            Inventory.Add(newInventoryItem);
+            pickedItem.OnItemPicked();
+            RefreshInventoryUI();
+        } else {
+            Debug.Log("¡No hay espacio en el inventario!");
+        }
     }
     void RefreshInventoryUI()
     {
-        for (int i = 0; i < Inventory.Count; i++)
+        for (int i = 0; i < _itemSlots.Length && i < Inventory.Count; i++)
         {
             Image img = _itemSlots[i].GetComponent<Image>();
             img.sprite = Inventory[i].InventoryImage.sprite;
             Color imgColor = img.color;
             imgColor.a = 255;
             img.color = imgColor;
-            Debug.Log("Hola");
         }
     }
     void OnTriggerEnter(Collider collider)
