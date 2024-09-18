@@ -1,29 +1,21 @@
+using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    // [SerializeField]
-    // Transform _itemSlotsParent;
-    // Transform[] _itemSlots;
+    [SerializeField]
+    GameObject[] _itemSlots;
     public List<Item> Inventory = new();
     Collider _interactableObject;
 
     public class Item
     {
-        SpriteRenderer InventoryImage;
+        public SpriteRenderer InventoryImage;
         public Item(SpriteRenderer img)
         {
             InventoryImage = img;
         }
-        // public void AddItemOnUI()
-        // {
-
-        // }
-    }
-    void Awake()
-    {
-        //_itemSlots = GetComponentsInChildren<Transform>();
     }
     void Update()
     {
@@ -48,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
                     ChestInteraction();
                     break;
                 case "Item":
-                    ItemInteraction();
+                    ItemPickUp();
                     break;
             }
         }
@@ -58,12 +50,25 @@ public class CharacterMovement : MonoBehaviour
         ChestRandomAlgorithm chest = _interactableObject.GetComponentInParent<ChestRandomAlgorithm>();
         chest.OnChestOpen();
     }
-    void ItemInteraction()
+    void ItemPickUp()
     {
         CollectibleItemLogic pickedItem = _interactableObject.GetComponent<CollectibleItemLogic>();
         Item newInventoryItem = new(pickedItem.Image);
         Inventory.Add(newInventoryItem);
         pickedItem.OnItemPicked();
+        RefreshInventoryUI();
+    }
+    void RefreshInventoryUI()
+    {
+        for (int i = 0; i < Inventory.Count; i++)
+        {
+            Image img = _itemSlots[i].GetComponent<Image>();
+            img.sprite = Inventory[i].InventoryImage.sprite;
+            Color imgColor = img.color;
+            imgColor.a = 255;
+            img.color = imgColor;
+            Debug.Log("Hola");
+        }
     }
     void OnTriggerEnter(Collider collider)
     {
